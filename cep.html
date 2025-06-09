@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEP API</title>
+</head>
+<body>
+    <input type="text" id="ipt_cep" placeholder="Digite o CEP">
+    <button onclick="buscarCep()">Buscar</button>
+    <div id="resultado"></div>
+
+    <script>
+        async function buscarCep() {
+            let cepDigitado = ipt_cep.value;
+            let retornoConvertido = 
+                await fetch(`https://viacep.com.br/ws/${cepDigitado}/json`)
+                .then((resposta) => resposta.json())
+                console.log('resposta final: ', retornoConvertido);
+
+                   resultado.innerHTML = `
+                        <p><strong>Logradouro:</strong> ${retornoConvertido.logradouro}</p>
+                        <p><strong>Bairro:</strong> ${retornoConvertido.bairro}</p>
+                        <p><strong>Cidade:</strong> ${retornoConvertido.localidade}</p>
+                        <p><strong>Estado:</strong> ${retornoConvertido.uf}</p>
+                    `;
+                
+
+            } 
+        
+    </script>
+</body>
+</html>
