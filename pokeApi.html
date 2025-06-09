@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémons</title>
+    <style>
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            width: 150px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        async function carregarPokemons() {
+            let container = document.getElementById('container');
+            let resposta = await fetch('https://pokeapi.co/api/v2/pokemon?limit=99');
+            let dados = await resposta.json();
+
+            
+            for (let pokemon of dados.results) {
+                let detalhes = await fetch(pokemon.url);
+                let dadosPokemon = await detalhes.json();
+
+                let card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${dadosPokemon.sprites.front_default}" alt="${pokemon.name}">
+                    <h3>${pokemon.name}</h3>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        carregarPokemons();
+    </script>
+</body>
+</html>
